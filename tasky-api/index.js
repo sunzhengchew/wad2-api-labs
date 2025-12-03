@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import tasksRouter from './api/tasks';
 import './db';
+// other imports
+import cors from 'cors';
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ const errHandler = (err, req, res, next) => {
 
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/tasks', tasksRouter);
 
@@ -28,3 +31,5 @@ app.listen(port, () => {
 });
 
 app.use(errHandler);
+
+
