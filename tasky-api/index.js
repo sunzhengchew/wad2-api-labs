@@ -5,6 +5,7 @@ import './db';
 // other imports
 import cors from 'cors';
 import usersRouter from './api/users';
+import authenticate from './authenticate';
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ const errHandler = (err, req, res, next) => {
 app.use(express.json());
 app.use(cors());
 app.use('/api/users', usersRouter);
-
+app.use('/api/tasks', authenticate, tasksRouter);
 app.use('/api/tasks', tasksRouter);
 
 app.listen(port, () => {
