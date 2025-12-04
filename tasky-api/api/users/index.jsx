@@ -6,6 +6,18 @@ import jwt from 'jsonwebtoken';
 const router = express.Router(); // eslint-disable-line
 
 async function registerUser(req, res) {
+    const { username, password } = req.body;
+    // Strong password regex
+    const strongPasswordRegex =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    // Validate password BEFORE saving to DB
+    if (!strongPasswordRegex.test(password)) {
+        return res.status(400).json({
+            success: false,
+            msg: 'Password must be at least 8 characters long and contain at least one letter, one number, and one special character.'
+        });
+    }
     // Add input validation logic here
     await User.create(req.body);
     res.status(201).json({ success: true, msg: 'User successfully created.' });
